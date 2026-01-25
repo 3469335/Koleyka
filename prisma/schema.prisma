@@ -10,10 +10,35 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
-model Note {
-  id        String   @id @default(uuid())
-  title     String
-  createdAt DateTime @default(now()) @map("created_at")
+model Category {
+  id       String  @id @default(cuid())
+  category String  @unique
+  users    User[]  @relation("UserCategory")
+
+  @@map("categories")
+}
+
+model User {
+  id          String   @id @default(cuid())
+  name        String
+  userTypeId  String   @map("user_type_id")
+  userType    Category @relation("UserCategory", fields: [userTypeId], references: [id], onDelete: Cascade)
   
-  @@map("notes")
+  @@map("users")
+}
+
+model Zapis {
+  id        String    @id @default(cuid())
+  number    Int
+  name      String
+  trans     String
+  srokDost  DateTime? @map("srok_dost")
+  datObr    DateTime? @map("dat_obr")
+  timObr    String?   @map("tim_obr")
+  datRazm   DateTime? @map("dat_razm")
+  timRazm   String?   @map("tim_razm")
+  telephon  String?   @map("telephon")
+
+  @@index([name])
+  @@map("zapis")
 }
