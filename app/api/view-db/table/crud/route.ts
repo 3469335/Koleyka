@@ -178,7 +178,21 @@ function prepareData(data: any, model: any, tableName?: string) {
 
     // Обрабатываем даты
     if (field.type === 'DateTime' && data[field.name]) {
-      prepared[field.name] = new Date(data[field.name])
+      // Для полей srokDost и datObr в таблице zapis устанавливаем время в начало дня
+      if (tableName === 'zapis' && (field.name === 'srokDost' || field.name === 'datObr')) {
+        // Если пришла строка в формате YYYY-MM-DD, создаем дату в локальном времени
+        if (typeof data[field.name] === 'string' && data[field.name].match(/^\d{4}-\d{2}-\d{2}$/)) {
+          const [year, month, day] = data[field.name].split('-').map(Number)
+          const date = new Date(year, month - 1, day, 0, 0, 0, 0)
+          prepared[field.name] = date
+        } else {
+          const date = new Date(data[field.name])
+          date.setHours(0, 0, 0, 0)
+          prepared[field.name] = date
+        }
+      } else {
+        prepared[field.name] = new Date(data[field.name])
+      }
     } else if (data[field.name] !== undefined && data[field.name] !== null && data[field.name] !== '') {
       prepared[field.name] = data[field.name]
     }

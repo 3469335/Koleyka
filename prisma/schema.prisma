@@ -38,6 +38,7 @@ model Zapis {
   datRazm   DateTime? @map("dat_razm")
   timRazm   String?   @map("tim_razm")
   telephon  String?   @map("telephon")
+  zvonok    String?   @map("zvonok")
 
   @@index([name])
   @@map("zapis")

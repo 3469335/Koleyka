@@ -290,7 +290,7 @@ export default function TableViewPage({ params }: { params: { tableName: string 
                         }}
                         title={String(record[field.name] || '')}
                       >
-                        {formatValue(record[field.name], field.type)}
+                        {formatValue(record[field.name], field.type, field.name, params.tableName)}
                       </td>
                     ))}
                     <td style={{ padding: '0.75rem', textAlign: 'center' }}>
@@ -509,14 +509,9 @@ function Modal({
                       </option>
                     ))}
                   </select>
-                ) : field.type === 'DateTime' ? (
-                  <input
-                    type="datetime-local"
-                    value={
-                      formData[field.name]
-                        ? new Date(formData[field.name]).toISOString().slice(0, 16)
-                        : ''
-                    }
+                ) : tableName === 'zapis' && field.name === 'zvonok' ? (
+                  <select
+                    value={formData[field.name] || ' '}
                     onChange={(e) =>
                       setFormData({ ...formData, [field.name]: e.target.value })
                     }
@@ -528,7 +523,59 @@ function Modal({
                       borderRadius: '6px',
                       fontSize: '0.875rem',
                     }}
-                  />
+                  >
+                    <option value=" "> </option>
+                    <option value="едет">едет</option>
+                    <option value="звонить утром">звонить утром</option>
+                    <option value="недозвон 1">недозвон 1</option>
+                    <option value="недозвон 2">недозвон 2</option>
+                    <option value="отказ">отказ</option>
+                    <option value="ремонт">ремонт</option>
+                  </select>
+                ) : field.type === 'DateTime' ? (
+                  // Для полей srokDost и datObr в таблице zapis используем input type="date"
+                  tableName === 'zapis' && (field.name === 'srokDost' || field.name === 'datObr') ? (
+                    <input
+                      type="date"
+                      value={
+                        formData[field.name]
+                          ? new Date(formData[field.name]).toISOString().slice(0, 10)
+                          : ''
+                      }
+                      onChange={(e) => {
+                        // Сохраняем дату как строку в формате YYYY-MM-DD, время будет установлено на сервере
+                        setFormData({ ...formData, [field.name]: e.target.value || '' })
+                      }}
+                      required={field.isRequired}
+                      style={{
+                        width: '100%',
+                        padding: '0.5rem',
+                        border: '1px solid #e0e0e0',
+                        borderRadius: '6px',
+                        fontSize: '0.875rem',
+                      }}
+                    />
+                  ) : (
+                    <input
+                      type="datetime-local"
+                      value={
+                        formData[field.name]
+                          ? new Date(formData[field.name]).toISOString().slice(0, 16)
+                          : ''
+                      }
+                      onChange={(e) =>
+                        setFormData({ ...formData, [field.name]: e.target.value })
+                      }
+                      required={field.isRequired}
+                      style={{
+                        width: '100%',
+                        padding: '0.5rem',
+                        border: '1px solid #e0e0e0',
+                        borderRadius: '6px',
+                        fontSize: '0.875rem',
+                      }}
+                    />
+                  )
                 ) : field.type === 'Int' ? (
                   <input
                     type="number"
@@ -602,9 +649,13 @@ function Modal({
 }
 
 // Форматирование значения для отображения
-function formatValue(value: any, type: string): string {
+function formatValue(value: any, type: string, fieldName?: string, tableName?: string): string {
   if (value === null || value === undefined) return '—'
   if (type === 'DateTime' && value) {
+    // Для полей srokDost и datObr в таблице zapis показываем только дату
+    if (tableName === 'zapis' && (fieldName === 'srokDost' || fieldName === 'datObr')) {
+      return new Date(value).toLocaleDateString('ru-RU')
+    }
     return new Date(value).toLocaleString('ru-RU')
   }
   if (typeof value === 'object') {
