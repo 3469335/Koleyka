@@ -87,7 +87,7 @@ async function main() {
             datRazm: tomorrow,
             timRazm: '10:00',
             telephon: '+7 (999) 123-45-67',
-            zvonok: 'едет',
+            status: 'едет',
           },
           {
             number: 2,
@@ -97,7 +97,7 @@ async function main() {
             datObr: now,
             timObr: '10:30',
             telephon: '+7 (999) 234-56-78',
-            zvonok: 'звонить утром',
+            status: 'звонить утром',
           },
           {
             number: 3,
@@ -109,7 +109,7 @@ async function main() {
             datRazm: tomorrow,
             timRazm: '12:00',
             telephon: '+7 (999) 345-67-89',
-            zvonok: ' ',
+            status: ' ',
           },
           {
             number: 4,
@@ -117,7 +117,7 @@ async function main() {
             trans: 'Грузовик',
             srokDost: nextWeek,
             telephon: '+7 (999) 456-78-90',
-            zvonok: 'недозвон 1',
+            status: 'недозвон 1',
           },
           {
             number: 5,
@@ -127,7 +127,7 @@ async function main() {
             datObr: now,
             timObr: '14:00',
             telephon: '+7 (999) 567-89-01',
-            zvonok: 'ремонт',
+            status: 'ремонт',
           },
         ],
       })

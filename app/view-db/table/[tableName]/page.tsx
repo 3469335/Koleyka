@@ -47,12 +47,18 @@ export default function TableViewPage({ params }: { params: { tableName: string 
       const response = await fetch(
         `/api/view-db/table?tableName=${params.tableName}&dbType=${dbType}&page=${page}&pageSize=10`
       )
-      if (!response.ok) throw new Error('Ошибка загрузки данных')
+      if (!response.ok) {
+        const errorData = await response.json().catch(() => ({}))
+        throw new Error(errorData.message || errorData.error || 'Ошибка загрузки данных')
+      }
       const data = await response.json()
+      if (data.error) {
+        throw new Error(data.message || data.error)
+      }
       setTableData(data)
-    } catch (error) {
+    } catch (error: any) {
       console.error('Ошибка:', error)
-      alert('Ошибка загрузки данных таблицы')
+      alert(`Ошибка загрузки данных таблицы: ${error.message || error}`)
     } finally {
       setLoading(false)
     }
@@ -509,7 +515,7 @@ function Modal({
                       </option>
                     ))}
                   </select>
-                ) : tableName === 'zapis' && field.name === 'zvonok' ? (
+                ) : tableName === 'zapis' && field.name === 'status' ? (
                   <select
                     value={formData[field.name] || ' '}
                     onChange={(e) =>
@@ -531,6 +537,7 @@ function Modal({
                     <option value="недозвон 2">недозвон 2</option>
                     <option value="отказ">отказ</option>
                     <option value="ремонт">ремонт</option>
+                    <option value="заехал">заехал</option>
                   </select>
                 ) : field.type === 'DateTime' ? (
                   // Для полей srokDost и datObr в таблице zapis используем input type="date"

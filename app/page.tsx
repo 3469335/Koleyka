@@ -94,7 +94,7 @@ export default async function Home() {
                   >
                     #{zapisItem.number} - {zapisItem.name}
                   </h2>
-                  {zapisItem.zvonok && (
+                  {zapisItem.status && (
                     <span
                       style={{
                         padding: '0.25rem 0.75rem',
@@ -104,7 +104,7 @@ export default async function Home() {
                         color: '#555',
                       }}
                     >
-                      {zapisItem.zvonok}
+                      {zapisItem.status}
                     </span>
                   )}
                 </div>
