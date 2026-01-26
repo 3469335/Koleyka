@@ -167,7 +167,7 @@ export default function MyZapisPage() {
             fontWeight: '600',
           }}
         >
-          📊 В очереди перед вами: <strong>{beforeCount}</strong> автомобилей
+          📊 Ваш номер в очереди: <strong>{beforeCount}</strong>
         </div>
 
         <div
@@ -180,7 +180,7 @@ export default function MyZapisPage() {
         >
           <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(250px, 1fr))', gap: '1rem', marginBottom: '1rem' }}>
             <div>
-              <strong style={{ fontSize: '0.875rem', color: '#666' }}>Номер в очереди:</strong>
+              <strong style={{ fontSize: '0.875rem', color: '#666' }}>Номер по списку:</strong>
               <div style={{ fontSize: '1.25rem', fontWeight: '600', color: '#333' }}>#{zapis.number}</div>
             </div>
             <div>

@@ -44,20 +44,25 @@ export async function GET(request: NextRequest) {
       return NextResponse.json({ error: 'Запись не найдена' }, { status: 404 })
     }
 
-    const beforeCount = await prisma.zapis.count({
+    // Подсчитываем количество записей перед текущей со статусами "заехал", "отказ", "недозвон 2"
+    const excludedBeforeCount = await prisma.zapis.count({
       where: {
         number: {
           lt: currentZapis.number,
         },
         status: {
-          notIn: ['недозвон 2', 'отказ', 'заехал'],
+          in: ['недозвон 2', 'отказ', 'заехал'],
         },
       },
     })
 
+    // Количество машин перед ним = номер записи - количество исключенных записей перед ним
+    const beforeCount = currentZapis.number - excludedBeforeCount
+
     return NextResponse.json({
       beforeCount,
       currentNumber: currentZapis.number,
+      excludedBeforeCount,
     })
   } catch (error: any) {
     console.error('Ошибка при подсчете записей:', error)
