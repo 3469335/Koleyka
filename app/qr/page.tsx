@@ -13,7 +13,7 @@ export default function QRCodePage() {
         const response = await fetch('/api/qr')
         if (response.ok) {
           const data = await response.json()
-          const url = data.url || window.location.origin
+          const url = data.url || 'https://koleyka.vercel.app'
           setDeployUrl(url)
           
           // Генерируем QR-код через внешний API
@@ -21,8 +21,8 @@ export default function QRCodePage() {
           const qrApiUrl = `https://api.qrserver.com/v1/create-qr-code/?size=300x300&data=${encodedUrl}`
           setQrCodeUrl(qrApiUrl)
         } else {
-          // Fallback на текущий URL
-          const url = window.location.origin
+          // Fallback на фиксированный URL деплоя
+          const url = 'https://koleyka.vercel.app'
           setDeployUrl(url)
           const encodedUrl = encodeURIComponent(url)
           const qrApiUrl = `https://api.qrserver.com/v1/create-qr-code/?size=300x300&data=${encodedUrl}`
@@ -30,8 +30,8 @@ export default function QRCodePage() {
         }
       } catch (error) {
         console.error('Ошибка при получении URL:', error)
-        // Fallback на текущий URL
-        const url = window.location.origin
+        // Fallback на фиксированный URL деплоя
+        const url = 'https://koleyka.vercel.app'
         setDeployUrl(url)
         const encodedUrl = encodeURIComponent(url)
         const qrApiUrl = `https://api.qrserver.com/v1/create-qr-code/?size=300x300&data=${encodedUrl}`
