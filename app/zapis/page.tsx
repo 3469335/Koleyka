@@ -208,18 +208,37 @@ export default function ZapisPage() {
   }
 
   return (
-    <div style={{ maxWidth: '1400px', margin: '0 auto', padding: '1rem' }}>
+    <div style={{ 
+      maxWidth: '1400px', 
+      margin: '0 auto', 
+      padding: '1rem',
+      minHeight: '100vh',
+      position: 'relative',
+      zIndex: 1,
+    }}>
       <div
         style={{
           background: 'white',
           borderRadius: '12px',
           padding: '2rem',
           boxShadow: '0 4px 6px rgba(0, 0, 0, 0.1)',
+          position: 'relative',
+          zIndex: 2,
+          color: '#333',
+          opacity: 1,
+          visibility: 'visible',
         }}
       >
         <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '1.5rem' }}>
           <div>
-            <h1 style={{ fontSize: '1.5rem', color: '#333', marginBottom: '0.5rem' }}>
+            <h1 style={{ 
+              fontSize: '1.5rem', 
+              color: '#333', 
+              marginBottom: '0.5rem',
+              opacity: 1,
+              visibility: 'visible',
+              display: 'block',
+            }}>
               🚗 Записи очереди
             </h1>
             {user && (

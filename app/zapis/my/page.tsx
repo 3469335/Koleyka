@@ -168,13 +168,25 @@ export default function MyZapisPage() {
   }
 
   return (
-    <div style={{ maxWidth: '1000px', margin: '0 auto', padding: '1rem' }}>
+    <div style={{ 
+      maxWidth: '1000px', 
+      margin: '0 auto', 
+      padding: '1rem',
+      minHeight: '100vh',
+      position: 'relative',
+      zIndex: 1,
+    }}>
       <div
         style={{
           background: 'white',
           borderRadius: '12px',
           padding: '1.5rem',
           boxShadow: '0 4px 6px rgba(0, 0, 0, 0.1)',
+          position: 'relative',
+          zIndex: 2,
+          color: '#333',
+          opacity: 1,
+          visibility: 'visible',
         }}
       >
         <div style={{ 
@@ -184,7 +196,14 @@ export default function MyZapisPage() {
           marginBottom: '1.5rem',
         }}>
           <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', flexWrap: 'wrap', gap: '1rem' }}>
-            <h1 style={{ fontSize: '1.25rem', color: '#333', margin: 0 }}>
+            <h1 style={{ 
+              fontSize: '1.25rem', 
+              color: '#333', 
+              margin: 0,
+              opacity: 1,
+              visibility: 'visible',
+              display: 'block',
+            }}>
               🚗 Ваша запись в очереди
             </h1>
             <button
@@ -218,7 +237,9 @@ export default function MyZapisPage() {
             fontWeight: '600',
           }}
         >
-          📊 Ваш номер в очереди: <strong>{beforeCount}</strong>
+          <span style={{ opacity: 1, visibility: 'visible', color: '#555' }}>
+            📊 Ваш номер в очереди: <strong style={{ color: '#333' }}>{beforeCount}</strong>
+          </span>
         </div>
 
         <div

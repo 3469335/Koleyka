@@ -38,20 +38,45 @@ export default function TablesPage() {
 
   if (loading) {
     return (
-      <div style={{ maxWidth: '800px', margin: '2rem auto', padding: '2rem', textAlign: 'center' }}>
-        <div style={{ fontSize: '1.25rem', color: '#666' }}>Загрузка таблиц...</div>
+      <div style={{ 
+        minHeight: '100vh',
+        display: 'flex',
+        alignItems: 'center',
+        justifyContent: 'center',
+        background: 'linear-gradient(135deg, #667eea 0%, #764ba2 100%)',
+        padding: '1rem',
+      }}>
+        <div style={{ 
+          background: 'white',
+          borderRadius: '12px',
+          padding: '2rem',
+          textAlign: 'center',
+          boxShadow: '0 10px 25px rgba(0, 0, 0, 0.2)',
+        }}>
+          <div style={{ fontSize: '1.25rem', color: '#666' }}>Загрузка таблиц...</div>
+        </div>
       </div>
     )
   }
 
   return (
-    <div style={{ maxWidth: '1000px', margin: '2rem auto', padding: '2rem' }}>
+    <div style={{ 
+      maxWidth: '1000px', 
+      margin: '0 auto', 
+      padding: '1rem',
+      minHeight: '100vh',
+      position: 'relative',
+      zIndex: 1,
+    }}>
       <div
         style={{
           background: 'white',
           borderRadius: '12px',
           padding: '2rem',
           boxShadow: '0 4px 6px rgba(0, 0, 0, 0.1)',
+          position: 'relative',
+          zIndex: 2,
+          color: '#333',
         }}
       >
         <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '1.5rem' }}>
