@@ -18,10 +18,36 @@ body {
   -moz-osx-font-smoothing: grayscale;
   background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
   min-height: 100vh;
-  padding: 2rem;
+  padding: 1rem;
+}
+
+@media (min-width: 640px) {
+  body {
+    padding: 2rem;
+  }
 }
 
 a {
   color: inherit;
   text-decoration: none;
+}
+
+/* Адаптивность для мобильных устройств */
+@media (max-width: 640px) {
+  /* Уменьшаем размеры шрифтов на мобильных */
+  input[type="text"],
+  input[type="number"],
+  input[type="date"],
+  input[type="time"],
+  select,
+  textarea {
+    font-size: 16px !important; /* Предотвращает зум на iOS */
+  }
+  
+  /* Улучшаем тач-таргеты */
+  button,
+  a {
+    min-height: 44px;
+    min-width: 44px;
+  }
 }

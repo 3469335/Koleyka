@@ -71,14 +71,14 @@ export default function LoginPage() {
         alignItems: 'center',
         justifyContent: 'center',
         background: 'linear-gradient(135deg, #667eea 0%, #764ba2 100%)',
-        padding: '2rem',
+        padding: '1rem',
       }}
     >
       <div
         style={{
           background: 'white',
           borderRadius: '12px',
-          padding: '3rem',
+          padding: '1.5rem',
           boxShadow: '0 10px 25px rgba(0, 0, 0, 0.2)',
           maxWidth: '400px',
           width: '100%',
@@ -86,7 +86,7 @@ export default function LoginPage() {
       >
         <h1
           style={{
-            fontSize: '2rem',
+            fontSize: '1.5rem',
             fontWeight: 'bold',
             marginBottom: '0.5rem',
             color: '#333',
@@ -100,7 +100,7 @@ export default function LoginPage() {
             fontSize: '0.875rem',
             color: '#666',
             textAlign: 'center',
-            marginBottom: '2rem',
+            marginBottom: '1.5rem',
           }}
         >
           Система управления очередью
@@ -128,14 +128,16 @@ export default function LoginPage() {
               required
               disabled={loading}
               autoFocus
+              inputMode="numeric"
               style={{
                 width: '100%',
-                padding: '0.75rem',
+                padding: '0.875rem',
                 border: '1px solid #e0e0e0',
                 borderRadius: '6px',
-                fontSize: '1rem',
+                fontSize: '16px', // Предотвращает зум на iOS
                 outline: 'none',
                 transition: 'border-color 0.2s',
+                WebkitAppearance: 'none',
               }}
               onFocus={(e) => (e.target.style.borderColor = '#667eea')}
               onBlur={(e) => (e.target.style.borderColor = '#e0e0e0')}
@@ -163,7 +165,7 @@ export default function LoginPage() {
             disabled={loading || !name.trim()}
             style={{
               width: '100%',
-              padding: '0.75rem',
+              padding: '0.875rem',
               background: loading || !name.trim() ? '#e0e0e0' : '#667eea',
               color: 'white',
               border: 'none',
@@ -172,6 +174,8 @@ export default function LoginPage() {
               fontWeight: '600',
               cursor: loading || !name.trim() ? 'not-allowed' : 'pointer',
               transition: 'background 0.2s',
+              WebkitTapHighlightColor: 'transparent',
+              touchAction: 'manipulation',
             }}
           >
             {loading ? 'Вход...' : 'Войти'}
