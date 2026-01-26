@@ -5,7 +5,8 @@
 }
 
 html {
-  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%) !important;
+  background-color: #667eea !important;
   min-height: 100vh;
 }
 
@@ -23,11 +24,12 @@ body {
     sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
-  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%) !important;
+  background-color: #667eea !important;
   background-attachment: fixed;
   min-height: 100vh;
   padding: 1rem;
-  color: #333;
+  color: #333 !important;
   position: relative;
   z-index: 0;
   -webkit-overflow-scrolling: touch;
@@ -77,6 +79,17 @@ a {
     visibility: visible !important;
   }
   
+  /* Убеждаемся, что фон body виден */
+  body {
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%) !important;
+    background-color: #667eea !important;
+  }
+  
+  html {
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%) !important;
+    background-color: #667eea !important;
+  }
+  
   /* Убеждаемся, что текст виден */
   h1, h2, h3, h4, h5, h6, p, span, strong, div, label {
     color: inherit;
@@ -98,6 +111,13 @@ a {
   body {
     -webkit-backface-visibility: hidden;
     backface-visibility: hidden;
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%) !important;
+    background-color: #667eea !important;
+  }
+  
+  html {
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%) !important;
+    background-color: #667eea !important;
   }
   
   div {
@@ -109,16 +129,48 @@ a {
 
 /* Принудительное обновление рендеринга для Chrome */
 @media screen and (-webkit-min-device-pixel-ratio: 0) {
+  * {
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+  }
+  
+  html {
+    transform: translate3d(0, 0, 0);
+    -webkit-transform: translate3d(0, 0, 0);
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%) !important;
+    background-color: #667eea !important;
+    background-image: linear-gradient(135deg, #667eea 0%, #764ba2 100%) !important;
+  }
+  
   body {
     transform: translate3d(0, 0, 0);
     -webkit-transform: translate3d(0, 0, 0);
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%) !important;
+    background-color: #667eea !important;
+    background-image: linear-gradient(135deg, #667eea 0%, #764ba2 100%) !important;
   }
   
   div[style*="background: white"],
-  div[style*="background:white"] {
+  div[style*="background:white"],
+  div[style*="backgroundColor: white"],
+  div[style*="backgroundColor:white"] {
     transform: translate3d(0, 0, 0);
     -webkit-transform: translate3d(0, 0, 0);
     -webkit-perspective: 1000;
     perspective: 1000;
+    background: white !important;
+    background-color: white !important;
+    background-image: none !important;
+    color: #333 !important;
+  }
+  
+  /* Убеждаемся, что все текстовые элементы видны */
+  h1, h2, h3, h4, h5, h6, p, span, strong, div, label, button {
+    color: inherit !important;
+  }
+  
+  /* Убеждаемся, что контент виден */
+  main, section, article {
+    background: transparent !important;
   }
 }

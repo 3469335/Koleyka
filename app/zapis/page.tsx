@@ -230,6 +230,7 @@ export default function ZapisPage() {
       <div
         style={{
           background: 'white',
+          backgroundColor: 'white',
           borderRadius: '12px',
           padding: '2rem',
           boxShadow: '0 4px 6px rgba(0, 0, 0, 0.1)',
@@ -242,6 +243,7 @@ export default function ZapisPage() {
           transform: 'translateZ(0)',
           WebkitBackfaceVisibility: 'hidden',
           backfaceVisibility: 'hidden',
+          display: 'block',
         }}
       >
         <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '1.5rem' }}>

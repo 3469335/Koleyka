@@ -83,6 +83,7 @@ export default function LoginPage() {
       <div
         style={{
           background: 'white',
+          backgroundColor: 'white',
           borderRadius: '12px',
           padding: '1.5rem',
           boxShadow: '0 10px 25px rgba(0, 0, 0, 0.2)',
@@ -94,6 +95,7 @@ export default function LoginPage() {
           backfaceVisibility: 'hidden',
           opacity: 1,
           visibility: 'visible',
+          display: 'block',
         }}
       >
         <h1

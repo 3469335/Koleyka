@@ -190,6 +190,7 @@ export default function MyZapisPage() {
       <div
         style={{
           background: 'white',
+          backgroundColor: 'white',
           borderRadius: '12px',
           padding: '1.5rem',
           boxShadow: '0 4px 6px rgba(0, 0, 0, 0.1)',
@@ -202,6 +203,7 @@ export default function MyZapisPage() {
           transform: 'translateZ(0)',
           WebkitBackfaceVisibility: 'hidden',
           backfaceVisibility: 'hidden',
+          display: 'block',
         }}
       >
         <div style={{ 

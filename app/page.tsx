@@ -74,6 +74,7 @@ export default function Home() {
     }}>
       <div style={{ 
         background: 'white',
+        backgroundColor: 'white',
         borderRadius: '12px',
         padding: '2rem',
         textAlign: 'center',
@@ -84,10 +85,11 @@ export default function Home() {
         visibility: 'visible',
         WebkitTransform: 'translateZ(0)',
         transform: 'translateZ(0)',
+        display: 'block',
       }}>
-        <div style={{ fontSize: '1.5rem', marginBottom: '1rem', color: '#333' }}>🚗</div>
-        <div style={{ fontSize: '1.25rem', color: '#666', marginBottom: '0.5rem' }}>Koleyka</div>
-        <div style={{ fontSize: '0.875rem', color: '#999' }}>Загрузка...</div>
+        <div style={{ fontSize: '1.5rem', marginBottom: '1rem', color: '#333', display: 'block' }}>🚗</div>
+        <div style={{ fontSize: '1.25rem', color: '#666', marginBottom: '0.5rem', display: 'block' }}>Koleyka</div>
+        <div style={{ fontSize: '0.875rem', color: '#999', display: 'block' }}>Загрузка...</div>
       </div>
     </div>
   )
