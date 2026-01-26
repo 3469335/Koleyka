@@ -106,7 +106,11 @@ export default function LoginPage() {
           Система управления очередью
         </p>
 
-        <form onSubmit={handleSubmit}>
+        <form onSubmit={handleSubmit} autoComplete="off">
+          {/* Скрытые поля для обхода автозаполнения браузера */}
+          <input type="text" name="username" autoComplete="username" style={{ display: 'none' }} tabIndex={-1} />
+          <input type="password" name="password" autoComplete="current-password" style={{ display: 'none' }} tabIndex={-1} />
+          
           <div style={{ marginBottom: '1.5rem' }}>
             <label
               htmlFor="name"
@@ -122,13 +126,17 @@ export default function LoginPage() {
             </label>
             <input
               id="name"
+              name="user-number"
               type="text"
               value={name}
               onChange={(e) => setName(e.target.value)}
               required
               disabled={loading}
               autoFocus
-              inputMode="numeric"
+              autoComplete="off"
+              data-form-type="other"
+              data-lpignore="true"
+              data-1p-ignore="true"
               style={{
                 width: '100%',
                 padding: '0.875rem',
