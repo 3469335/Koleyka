@@ -43,7 +43,19 @@ export default function ZapisPage() {
 
   const checkSession = async () => {
     try {
-      const response = await fetch('/api/auth/session')
+      // Добавляем небольшую задержку для установки куки после редиректа
+      await new Promise(resolve => setTimeout(resolve, 200))
+      
+      const response = await fetch('/api/auth/session', {
+        cache: 'no-store',
+        credentials: 'include',
+      })
+      
+      if (!response.ok) {
+        router.push('/login')
+        return
+      }
+      
       const data = await response.json()
       if (!data.user) {
         router.push('/login')
@@ -52,7 +64,10 @@ export default function ZapisPage() {
       setUser(data.user)
     } catch (error) {
       console.error('Ошибка проверки сессии:', error)
-      router.push('/login')
+      // Не редиректим сразу, даем время на повторную попытку
+      setTimeout(() => {
+        router.push('/login')
+      }, 500)
     }
   }
 
@@ -74,11 +89,35 @@ export default function ZapisPage() {
 
   const handleLogout = async () => {
     await fetch('/api/auth/logout', { method: 'POST' })
-    router.push('/login')
+    window.location.href = '/login'
   }
 
   const canEdit = user?.userType === 'User1' || user?.userType === 'User3'
   const canCreate = user?.userType === 'User1' || user?.userType === 'User3'
+
+  if (loading) {
+    return (
+      <div style={{ 
+        minHeight: '100vh',
+        display: 'flex',
+        alignItems: 'center',
+        justifyContent: 'center',
+        background: 'linear-gradient(135deg, #667eea 0%, #764ba2 100%)',
+        padding: '1rem',
+      }}>
+        <div style={{ 
+          background: 'white',
+          borderRadius: '12px',
+          padding: '2rem',
+          textAlign: 'center',
+          boxShadow: '0 10px 25px rgba(0, 0, 0, 0.2)',
+        }}>
+          <div style={{ fontSize: '1.25rem', color: '#666', marginBottom: '1rem' }}>Загрузка данных...</div>
+          <div style={{ fontSize: '0.875rem', color: '#999' }}>Пожалуйста, подождите</div>
+        </div>
+      </div>
+    )
+  }
 
   const handleCreate = async () => {
     try {
@@ -146,14 +185,30 @@ export default function ZapisPage() {
 
   if (loading) {
     return (
-      <div style={{ maxWidth: '1400px', margin: '2rem auto', padding: '2rem', textAlign: 'center' }}>
-        <div style={{ fontSize: '1.25rem', color: '#666' }}>Загрузка данных...</div>
+      <div style={{ 
+        minHeight: '100vh',
+        display: 'flex',
+        alignItems: 'center',
+        justifyContent: 'center',
+        background: 'linear-gradient(135deg, #667eea 0%, #764ba2 100%)',
+        padding: '1rem',
+      }}>
+        <div style={{ 
+          background: 'white',
+          borderRadius: '12px',
+          padding: '2rem',
+          textAlign: 'center',
+          boxShadow: '0 10px 25px rgba(0, 0, 0, 0.2)',
+        }}>
+          <div style={{ fontSize: '1.25rem', color: '#666', marginBottom: '1rem' }}>Загрузка данных...</div>
+          <div style={{ fontSize: '0.875rem', color: '#999' }}>Пожалуйста, подождите</div>
+        </div>
       </div>
     )
   }
 
   return (
-    <div style={{ maxWidth: '1400px', margin: '2rem auto', padding: '2rem' }}>
+    <div style={{ maxWidth: '1400px', margin: '0 auto', padding: '1rem' }}>
       <div
         style={{
           background: 'white',

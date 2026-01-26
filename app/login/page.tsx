@@ -44,18 +44,21 @@ export default function LoginPage() {
         throw new Error('Ошибка сохранения сессии')
       }
 
+      // Небольшая задержка для установки куки, особенно на мобильных устройствах
+      await new Promise(resolve => setTimeout(resolve, 100))
+
       // Перенаправляем в зависимости от типа пользователя
+      // Используем window.location для более надежного редиректа на мобильных
       const userType = data.user.userType
+      let redirectPath = '/zapis'
       if (userType === 'User1') {
-        router.push('/view-db/tables')
+        redirectPath = '/view-db/tables'
       } else if (userType === 'User4') {
-        router.push('/zapis/my')
-      } else {
-        router.push('/zapis')
+        redirectPath = '/zapis/my'
       }
       
-      // Обновляем страницу для применения изменений
-      router.refresh()
+      // Используем window.location для полной перезагрузки страницы
+      window.location.href = redirectPath
     } catch (error: any) {
       console.error('Ошибка:', error)
       setError('Ошибка при подключении к серверу')

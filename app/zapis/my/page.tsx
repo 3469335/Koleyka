@@ -38,7 +38,19 @@ export default function MyZapisPage() {
 
   const checkSession = async () => {
     try {
-      const response = await fetch('/api/auth/session')
+      // Добавляем небольшую задержку для установки куки после редиректа
+      await new Promise(resolve => setTimeout(resolve, 200))
+      
+      const response = await fetch('/api/auth/session', {
+        cache: 'no-store',
+        credentials: 'include',
+      })
+      
+      if (!response.ok) {
+        router.push('/login')
+        return
+      }
+      
       const data = await response.json()
       if (!data.user || data.user.userType !== 'User4') {
         router.push('/login')
@@ -47,7 +59,10 @@ export default function MyZapisPage() {
       setUser(data.user)
     } catch (error) {
       console.error('Ошибка проверки сессии:', error)
-      router.push('/login')
+      // Не редиректим сразу, даем время на повторную попытку
+      setTimeout(() => {
+        router.push('/login')
+      }, 500)
     }
   }
 
@@ -78,36 +93,64 @@ export default function MyZapisPage() {
 
   const handleLogout = async () => {
     await fetch('/api/auth/logout', { method: 'POST' })
-    router.push('/login')
+    window.location.href = '/login'
   }
 
   if (loading) {
     return (
-      <div style={{ maxWidth: '1000px', margin: '2rem auto', padding: '2rem', textAlign: 'center' }}>
-        <div style={{ fontSize: '1.25rem', color: '#666' }}>Загрузка данных...</div>
+      <div style={{ 
+        minHeight: '100vh',
+        display: 'flex',
+        alignItems: 'center',
+        justifyContent: 'center',
+        background: 'linear-gradient(135deg, #667eea 0%, #764ba2 100%)',
+        padding: '1rem',
+      }}>
+        <div style={{ 
+          background: 'white',
+          borderRadius: '12px',
+          padding: '2rem',
+          textAlign: 'center',
+          boxShadow: '0 10px 25px rgba(0, 0, 0, 0.2)',
+        }}>
+          <div style={{ fontSize: '1.25rem', color: '#666', marginBottom: '1rem' }}>Загрузка данных...</div>
+          <div style={{ fontSize: '0.875rem', color: '#999' }}>Пожалуйста, подождите</div>
+        </div>
       </div>
     )
   }
 
   if (!zapis) {
     return (
-      <div style={{ maxWidth: '1000px', margin: '2rem auto', padding: '2rem' }}>
+      <div style={{ 
+        minHeight: '100vh',
+        display: 'flex',
+        alignItems: 'center',
+        justifyContent: 'center',
+        background: 'linear-gradient(135deg, #667eea 0%, #764ba2 100%)',
+        padding: '1rem',
+      }}>
         <div
           style={{
             background: 'white',
             borderRadius: '12px',
             padding: '2rem',
-            boxShadow: '0 4px 6px rgba(0, 0, 0, 0.1)',
+            boxShadow: '0 10px 25px rgba(0, 0, 0, 0.2)',
             textAlign: 'center',
+            maxWidth: '500px',
+            width: '100%',
           }}
         >
           <h1 style={{ fontSize: '1.5rem', color: '#333', marginBottom: '1rem' }}>
             Ваша запись не найдена
           </h1>
+          <p style={{ fontSize: '0.875rem', color: '#666', marginBottom: '1.5rem' }}>
+            Обратитесь к администратору для создания записи
+          </p>
           <button
             onClick={handleLogout}
             style={{
-              padding: '0.5rem 1.5rem',
+              padding: '0.75rem 1.5rem',
               background: '#ef4444',
               color: 'white',
               border: 'none',
@@ -125,34 +168,42 @@ export default function MyZapisPage() {
   }
 
   return (
-    <div style={{ maxWidth: '1000px', margin: '2rem auto', padding: '2rem' }}>
+    <div style={{ maxWidth: '1000px', margin: '0 auto', padding: '1rem' }}>
       <div
         style={{
           background: 'white',
           borderRadius: '12px',
-          padding: '2rem',
+          padding: '1.5rem',
           boxShadow: '0 4px 6px rgba(0, 0, 0, 0.1)',
         }}
       >
-        <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '1.5rem' }}>
-          <h1 style={{ fontSize: '1.5rem', color: '#333' }}>
-            🚗 Ваша запись в очереди
-          </h1>
-          <button
-            onClick={handleLogout}
-            style={{
-              padding: '0.5rem 1.5rem',
-              background: '#ef4444',
-              color: 'white',
-              border: 'none',
-              borderRadius: '6px',
-              fontSize: '0.875rem',
-              fontWeight: '600',
-              cursor: 'pointer',
-            }}
-          >
-            Выход
-          </button>
+        <div style={{ 
+          display: 'flex', 
+          flexDirection: 'column',
+          gap: '1rem',
+          marginBottom: '1.5rem',
+        }}>
+          <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', flexWrap: 'wrap', gap: '1rem' }}>
+            <h1 style={{ fontSize: '1.25rem', color: '#333', margin: 0 }}>
+              🚗 Ваша запись в очереди
+            </h1>
+            <button
+              onClick={handleLogout}
+              style={{
+                padding: '0.5rem 1.5rem',
+                background: '#ef4444',
+                color: 'white',
+                border: 'none',
+                borderRadius: '6px',
+                fontSize: '0.875rem',
+                fontWeight: '600',
+                cursor: 'pointer',
+                whiteSpace: 'nowrap',
+              }}
+            >
+              Выход
+            </button>
+          </div>
         </div>
 
         <div
