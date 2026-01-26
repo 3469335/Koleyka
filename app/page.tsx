@@ -1,22 +1,23 @@
-import { prisma } from '@/lib/prisma'
-
-async function getZapis() {
-  try {
-    const zapis = await prisma.zapis.findMany({
-      orderBy: {
-        number: 'asc',
-      },
-      take: 10, // Показываем первые 10 записей
-    })
-    return zapis
-  } catch (error) {
-    console.error('Ошибка при получении записей:', error)
-    return []
-  }
-}
+import { redirect } from 'next/navigation'
+import { getUserSession } from '@/lib/auth'
 
 export default async function Home() {
-  const zapis = await getZapis()
+  const user = await getUserSession()
+  
+  // Если пользователь не авторизован, перенаправляем на страницу входа
+  if (!user) {
+    redirect('/login')
+  }
+
+  // Перенаправляем в зависимости от типа пользователя
+  const userType = user.userType
+  if (userType === 'User1') {
+    redirect('/view-db/tables')
+  } else if (userType === 'User4') {
+    redirect('/zapis/my')
+  } else {
+    redirect('/zapis')
+  }
 
   return (
     <main style={{ maxWidth: '1000px', margin: '2rem auto', padding: '2rem' }}>
