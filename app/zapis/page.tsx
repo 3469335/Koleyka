@@ -103,7 +103,10 @@ export default function ZapisPage() {
         alignItems: 'center',
         justifyContent: 'center',
         background: 'linear-gradient(135deg, #667eea 0%, #764ba2 100%)',
+        backgroundAttachment: 'fixed',
         padding: '1rem',
+        WebkitTransform: 'translateZ(0)',
+        transform: 'translateZ(0)',
       }}>
         <div style={{ 
           background: 'white',
@@ -111,6 +114,12 @@ export default function ZapisPage() {
           padding: '2rem',
           textAlign: 'center',
           boxShadow: '0 10px 25px rgba(0, 0, 0, 0.2)',
+          WebkitTransform: 'translateZ(0)',
+          transform: 'translateZ(0)',
+          WebkitBackfaceVisibility: 'hidden',
+          backfaceVisibility: 'hidden',
+          opacity: 1,
+          visibility: 'visible',
         }}>
           <div style={{ fontSize: '1.25rem', color: '#666', marginBottom: '1rem' }}>Загрузка данных...</div>
           <div style={{ fontSize: '0.875rem', color: '#999' }}>Пожалуйста, подождите</div>
@@ -215,6 +224,8 @@ export default function ZapisPage() {
       minHeight: '100vh',
       position: 'relative',
       zIndex: 1,
+      WebkitTransform: 'translateZ(0)',
+      transform: 'translateZ(0)',
     }}>
       <div
         style={{
@@ -227,6 +238,10 @@ export default function ZapisPage() {
           color: '#333',
           opacity: 1,
           visibility: 'visible',
+          WebkitTransform: 'translateZ(0)',
+          transform: 'translateZ(0)',
+          WebkitBackfaceVisibility: 'hidden',
+          backfaceVisibility: 'hidden',
         }}
       >
         <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '1.5rem' }}>

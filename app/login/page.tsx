@@ -74,7 +74,10 @@ export default function LoginPage() {
         alignItems: 'center',
         justifyContent: 'center',
         background: 'linear-gradient(135deg, #667eea 0%, #764ba2 100%)',
+        backgroundAttachment: 'fixed',
         padding: '1rem',
+        WebkitTransform: 'translateZ(0)',
+        transform: 'translateZ(0)',
       }}
     >
       <div
@@ -85,6 +88,12 @@ export default function LoginPage() {
           boxShadow: '0 10px 25px rgba(0, 0, 0, 0.2)',
           maxWidth: '400px',
           width: '100%',
+          WebkitTransform: 'translateZ(0)',
+          transform: 'translateZ(0)',
+          WebkitBackfaceVisibility: 'hidden',
+          backfaceVisibility: 'hidden',
+          opacity: 1,
+          visibility: 'visible',
         }}
       >
         <h1

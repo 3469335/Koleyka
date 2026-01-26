@@ -44,7 +44,10 @@ export default function TablesPage() {
         alignItems: 'center',
         justifyContent: 'center',
         background: 'linear-gradient(135deg, #667eea 0%, #764ba2 100%)',
+        backgroundAttachment: 'fixed',
         padding: '1rem',
+        WebkitTransform: 'translateZ(0)',
+        transform: 'translateZ(0)',
       }}>
         <div style={{ 
           background: 'white',
@@ -52,6 +55,12 @@ export default function TablesPage() {
           padding: '2rem',
           textAlign: 'center',
           boxShadow: '0 10px 25px rgba(0, 0, 0, 0.2)',
+          WebkitTransform: 'translateZ(0)',
+          transform: 'translateZ(0)',
+          WebkitBackfaceVisibility: 'hidden',
+          backfaceVisibility: 'hidden',
+          opacity: 1,
+          visibility: 'visible',
         }}>
           <div style={{ fontSize: '1.25rem', color: '#666' }}>Загрузка таблиц...</div>
         </div>
@@ -67,6 +76,8 @@ export default function TablesPage() {
       minHeight: '100vh',
       position: 'relative',
       zIndex: 1,
+      WebkitTransform: 'translateZ(0)',
+      transform: 'translateZ(0)',
     }}>
       <div
         style={{
@@ -77,6 +88,12 @@ export default function TablesPage() {
           position: 'relative',
           zIndex: 2,
           color: '#333',
+          WebkitTransform: 'translateZ(0)',
+          transform: 'translateZ(0)',
+          WebkitBackfaceVisibility: 'hidden',
+          backfaceVisibility: 'hidden',
+          opacity: 1,
+          visibility: 'visible',
         }}
       >
         <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '1.5rem' }}>

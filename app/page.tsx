@@ -65,7 +65,12 @@ export default function Home() {
       alignItems: 'center',
       justifyContent: 'center',
       background: 'linear-gradient(135deg, #667eea 0%, #764ba2 100%)',
+      backgroundAttachment: 'fixed',
       padding: '1rem',
+      position: 'relative',
+      zIndex: 1,
+      WebkitTransform: 'translateZ(0)',
+      transform: 'translateZ(0)',
     }}>
       <div style={{ 
         background: 'white',
@@ -73,8 +78,14 @@ export default function Home() {
         padding: '2rem',
         textAlign: 'center',
         boxShadow: '0 10px 25px rgba(0, 0, 0, 0.2)',
+        position: 'relative',
+        zIndex: 2,
+        opacity: 1,
+        visibility: 'visible',
+        WebkitTransform: 'translateZ(0)',
+        transform: 'translateZ(0)',
       }}>
-        <div style={{ fontSize: '1.5rem', marginBottom: '1rem' }}>🚗</div>
+        <div style={{ fontSize: '1.5rem', marginBottom: '1rem', color: '#333' }}>🚗</div>
         <div style={{ fontSize: '1.25rem', color: '#666', marginBottom: '0.5rem' }}>Koleyka</div>
         <div style={{ fontSize: '0.875rem', color: '#999' }}>Загрузка...</div>
       </div>

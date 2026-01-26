@@ -8,6 +8,12 @@ export const metadata: Metadata = {
     width: 'device-width',
     initialScale: 1,
     maximumScale: 1,
+    userScalable: false,
+  },
+  themeColor: '#667eea',
+  appleWebApp: {
+    capable: true,
+    statusBarStyle: 'default',
   },
 }
 
@@ -18,7 +24,20 @@ export default function RootLayout({
 }) {
   return (
     <html lang="ru" suppressHydrationWarning>
-      <body suppressHydrationWarning>{children}</body>
+      <head>
+        <meta name="theme-color" content="#667eea" />
+        <meta name="mobile-web-app-capable" content="yes" />
+        <meta name="apple-mobile-web-app-capable" content="yes" />
+        <meta name="apple-mobile-web-app-status-bar-style" content="default" />
+        <meta httpEquiv="X-UA-Compatible" content="IE=edge" />
+      </head>
+      <body suppressHydrationWarning style={{ 
+        WebkitFontSmoothing: 'antialiased',
+        MozOsxFontSmoothing: 'grayscale',
+        WebkitTapHighlightColor: 'transparent',
+      }}>
+        {children}
+      </body>
     </html>
   )
 }
