@@ -160,12 +160,22 @@ vercel
 ### Важные моменты для деплоя
 
 - ✅ `DATABASE_URL` должен быть добавлен в Environment Variables в настройках проекта Vercel
-- ✅ Prisma автоматически сгенерирует клиент при сборке (благодаря `vercel.json`)
+- ✅ Prisma автоматически сгенерирует клиент после установки зависимостей (благодаря `postinstall` скрипту)
+- ✅ `prisma` находится в `dependencies` (не в `devDependencies`), чтобы быть доступным на Vercel
 - ✅ После деплоя выполните миграцию на продакшен БД:
   ```bash
   npx prisma migrate deploy
   ```
   Или используйте Prisma Migrate в NeonDB Dashboard
+
+### Решение проблем при деплое
+
+Если возникает ошибка `Command "prisma generate && next build" exited with 1`:
+
+1. Убедитесь, что `DATABASE_URL` правильно настроен в Environment Variables
+2. Проверьте, что `prisma` находится в `dependencies` (не в `devDependencies`)
+3. Убедитесь, что `postinstall` скрипт присутствует в `package.json`
+4. Проверьте логи сборки в Vercel для деталей ошибки
 
 ### Выполнение миграций на продакшене
 
