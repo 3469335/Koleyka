@@ -207,12 +207,12 @@ export default function MyZapisPage() {
             )}
             {zapis.datObr && (
               <div>
-                <strong>Дата обработки:</strong> {new Date(zapis.datObr).toLocaleDateString('ru-RU')}
+                <strong>Дата обращения:</strong> {new Date(zapis.datObr).toLocaleDateString('ru-RU')}
               </div>
             )}
             {zapis.timObr && (
               <div>
-                <strong>Время обработки:</strong> {zapis.timObr}
+                <strong>Время обращения:</strong> {zapis.timObr}
               </div>
             )}
             {zapis.telephon && (

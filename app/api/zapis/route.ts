@@ -118,6 +118,11 @@ export async function POST(request: NextRequest) {
       )
     }
 
+    // Автоматически устанавливаем дату и время обращения, если не указаны
+    const now = new Date()
+    const currentDate = datObr ? new Date(datObr) : now
+    const currentTime = timObr || now.toLocaleTimeString('ru-RU', { hour: '2-digit', minute: '2-digit' })
+
     // Создаем запись zapis
     const zapis = await prisma.zapis.create({
       data: {
@@ -125,8 +130,8 @@ export async function POST(request: NextRequest) {
         name: name.trim(),
         trans: trans.trim(),
         srokDost: srokDost ? new Date(srokDost) : null,
-        datObr: datObr ? new Date(datObr) : null,
-        timObr: timObr || null,
+        datObr: currentDate,
+        timObr: currentTime,
         datRazm: datRazm ? new Date(datRazm) : null,
         timRazm: timRazm || null,
         telephon: telephon || null,

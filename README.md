@@ -112,8 +112,8 @@ koleyka/
 - `name` (string) - номер автомобиля (индексировано)
 - `trans` (string) - тип транспорта
 - `srokDost` (DateTime, optional) - срок доставки
-- `datObr` (DateTime, optional) - дата обработки
-- `timObr` (string, optional) - время обработки
+- `datObr` (DateTime, optional) - дата обращения (устанавливается автоматически при создании)
+- `timObr` (string, optional) - время обращения (устанавливается автоматически при создании)
 - `datRazm` (DateTime, optional) - дата разгрузки
 - `timRazm` (string, optional) - время разгрузки
 - `telephon` (string, optional) - телефон

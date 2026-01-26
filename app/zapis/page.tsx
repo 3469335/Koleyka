@@ -132,10 +132,13 @@ export default function ZapisPage() {
   }
 
   const openCreateModal = () => {
+    const now = new Date()
     setFormData({
       number: zapis.length > 0 ? Math.max(...zapis.map(z => z.number)) + 1 : 1,
       name: '',
       trans: '',
+      datObr: now.toISOString().slice(0, 10), // Текущая дата
+      timObr: now.toLocaleTimeString('ru-RU', { hour: '2-digit', minute: '2-digit' }), // Текущее время
       status: ' ',
     })
     setShowCreateModal(true)
@@ -228,8 +231,8 @@ export default function ZapisPage() {
                 <th style={{ padding: '0.75rem', textAlign: 'left', borderBottom: '2px solid #e0e0e0', fontWeight: '600', fontSize: '0.875rem' }}>Номер авто</th>
                 <th style={{ padding: '0.75rem', textAlign: 'left', borderBottom: '2px solid #e0e0e0', fontWeight: '600', fontSize: '0.875rem' }}>Транспорт</th>
                 <th style={{ padding: '0.75rem', textAlign: 'left', borderBottom: '2px solid #e0e0e0', fontWeight: '600', fontSize: '0.875rem' }}>Срок доставки</th>
-                <th style={{ padding: '0.75rem', textAlign: 'left', borderBottom: '2px solid #e0e0e0', fontWeight: '600', fontSize: '0.875rem' }}>Дата обработки</th>
-                <th style={{ padding: '0.75rem', textAlign: 'left', borderBottom: '2px solid #e0e0e0', fontWeight: '600', fontSize: '0.875rem' }}>Время обработки</th>
+                <th style={{ padding: '0.75rem', textAlign: 'left', borderBottom: '2px solid #e0e0e0', fontWeight: '600', fontSize: '0.875rem' }}>Дата обращения</th>
+                <th style={{ padding: '0.75rem', textAlign: 'left', borderBottom: '2px solid #e0e0e0', fontWeight: '600', fontSize: '0.875rem' }}>Время обращения</th>
                 <th style={{ padding: '0.75rem', textAlign: 'left', borderBottom: '2px solid #e0e0e0', fontWeight: '600', fontSize: '0.875rem' }}>Телефон</th>
                 <th style={{ padding: '0.75rem', textAlign: 'left', borderBottom: '2px solid #e0e0e0', fontWeight: '600', fontSize: '0.875rem' }}>Статус</th>
                 {canEdit && (
@@ -421,7 +424,10 @@ function ZapisModal({
 
           <div>
             <label style={{ display: 'block', marginBottom: '0.5rem', fontWeight: '600', fontSize: '0.875rem', color: '#555' }}>
-              Дата обработки
+              Дата обращения
+              <span style={{ fontSize: '0.75rem', color: '#999', fontWeight: 'normal', marginLeft: '0.5rem' }}>
+                (устанавливается автоматически)
+              </span>
             </label>
             <input
               type="date"
@@ -433,7 +439,10 @@ function ZapisModal({
 
           <div>
             <label style={{ display: 'block', marginBottom: '0.5rem', fontWeight: '600', fontSize: '0.875rem', color: '#555' }}>
-              Время обработки
+              Время обращения
+              <span style={{ fontSize: '0.75rem', color: '#999', fontWeight: 'normal', marginLeft: '0.5rem' }}>
+                (устанавливается автоматически)
+              </span>
             </label>
             <input
               type="text"
