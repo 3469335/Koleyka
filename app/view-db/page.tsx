@@ -21,6 +21,16 @@ export default function ViewDbPage() {
     }
   }
 
+  const handleLogout = async () => {
+    try {
+      await fetch('/api/auth/logout', { method: 'POST' })
+      window.location.href = '/login'
+    } catch (error) {
+      console.error('Ошибка при выходе:', error)
+      window.location.href = '/login'
+    }
+  }
+
   return (
     <div style={{ maxWidth: '600px', margin: '2rem auto', padding: '2rem' }}>
       <div
@@ -106,24 +116,43 @@ export default function ViewDbPage() {
           </div>
         </div>
 
-        <button
-          onClick={handleContinue}
-          disabled={loading}
-          style={{
-            width: '100%',
-            padding: '0.75rem',
-            background: '#667eea',
-            color: 'white',
-            border: 'none',
-            borderRadius: '8px',
-            fontSize: '1rem',
-            fontWeight: '600',
-            cursor: loading ? 'not-allowed' : 'pointer',
-            opacity: loading ? 0.6 : 1,
-          }}
-        >
-          {loading ? 'Загрузка...' : 'Продолжить →'}
-        </button>
+        <div style={{ display: 'flex', flexDirection: 'column', gap: '0.75rem' }}>
+          <button
+            onClick={handleContinue}
+            disabled={loading}
+            style={{
+              width: '100%',
+              padding: '0.75rem',
+              background: '#667eea',
+              color: 'white',
+              border: 'none',
+              borderRadius: '8px',
+              fontSize: '1rem',
+              fontWeight: '600',
+              cursor: loading ? 'not-allowed' : 'pointer',
+              opacity: loading ? 0.6 : 1,
+            }}
+          >
+            {loading ? 'Загрузка...' : 'Продолжить →'}
+          </button>
+          
+          <button
+            onClick={handleLogout}
+            style={{
+              width: '100%',
+              padding: '0.75rem',
+              background: '#ef4444',
+              color: 'white',
+              border: 'none',
+              borderRadius: '8px',
+              fontSize: '0.875rem',
+              fontWeight: '600',
+              cursor: 'pointer',
+            }}
+          >
+            Выход
+          </button>
+        </div>
       </div>
     </div>
   )
