@@ -247,15 +247,15 @@ export default function MyZapisPage() {
             padding: '1rem',
             background: '#e8f4f8',
             borderRadius: '8px',
-            fontSize: '1rem',
-            color: '#555',
+            fontSize: '1.25rem',
+            color: '#333',
             marginBottom: '1.5rem',
             textAlign: 'center',
             fontWeight: '600',
           }}
         >
-          <span style={{ opacity: 1, visibility: 'visible', color: '#555' }}>
-            📊 Ваш номер в очереди: <strong style={{ color: '#333' }}>{beforeCount}</strong>
+          <span style={{ opacity: 1, visibility: 'visible', color: '#333' }}>
+            📊 Ваш номер в очереди: <strong style={{ color: '#333', fontSize: '1.25rem' }}>{beforeCount}</strong>
           </span>
         </div>
 

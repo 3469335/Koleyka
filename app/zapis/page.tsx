@@ -305,13 +305,14 @@ export default function ZapisPage() {
             padding: '1rem',
             background: '#e8f4f8',
             borderRadius: '8px',
-            fontSize: '0.875rem',
-            color: '#555',
+            fontSize: '1.5rem',
+            color: '#333',
             marginBottom: '1.5rem',
             textAlign: 'center',
+            fontWeight: '600',
           }}
         >
-          <strong>📊 Автомобилей в очереди:</strong> {queueCount}
+          <strong style={{ fontSize: '1.5rem' }}>📊 Автомобилей в очереди:</strong> <span style={{ fontSize: '1.5rem', fontWeight: '600' }}>{queueCount}</span>
         </div>
 
         <div style={{ overflowX: 'auto' }}>
