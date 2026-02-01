@@ -1,6 +1,6 @@
 import { User } from './auth'
 
-export type UserType = 'User1' | 'User2' | 'User3' | 'User4'
+export type UserType = 'User1' | 'User2' | 'User3' | 'User4' | 'User5'
 
 export function hasPermission(user: User | null, requiredType: UserType | UserType[]): boolean {
   if (!user) return false
@@ -10,7 +10,11 @@ export function hasPermission(user: User | null, requiredType: UserType | UserTy
 }
 
 export function canViewZapis(user: User | null): boolean {
-  return hasPermission(user, ['User1', 'User2', 'User3', 'User4'])
+  return hasPermission(user, ['User1', 'User2', 'User3', 'User4', 'User5'])
+}
+
+export function canViewEdetList(user: User | null): boolean {
+  return hasPermission(user, ['User5'])
 }
 
 export function canEditZapis(user: User | null): boolean {

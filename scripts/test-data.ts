@@ -23,8 +23,11 @@ async function main() {
       const category4 = await prisma.category.create({
         data: { category: 'User4' },
       })
-      categories = [category1, category2, category3, category4]
-      console.log('✅ Создано 4 категории\n')
+      const category5 = await prisma.category.create({
+        data: { category: 'User5' },
+      })
+      categories = [category1, category2, category3, category4, category5]
+      console.log('✅ Создано 5 категорий\n')
     } else {
       console.log(`✅ Найдено ${categories.length} категорий\n`)
     }
@@ -54,7 +57,7 @@ async function main() {
           },
           {
             name: 'Мария Смирнова',
-            userTypeId: categories.find(c => c.category === 'User3')!.id,
+            userTypeId: categories.find(c => c.category === 'User5')!.id,
           },
         ],
       })

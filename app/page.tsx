@@ -40,6 +40,8 @@ export default function Home() {
           redirectPath = '/view-db/tables'
         } else if (userType === 'User4') {
           redirectPath = '/zapis/my'
+        } else if (userType === 'User5') {
+          redirectPath = '/zapis/edet'
         }
         
         // Используем window.location для полной перезагрузки

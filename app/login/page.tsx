@@ -55,6 +55,8 @@ export default function LoginPage() {
         redirectPath = '/view-db/tables'
       } else if (userType === 'User4') {
         redirectPath = '/zapis/my'
+      } else if (userType === 'User5') {
+        redirectPath = '/zapis/edet'
       }
       
       // Используем window.location для полной перезагрузки страницы

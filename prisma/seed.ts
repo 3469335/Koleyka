@@ -26,7 +26,10 @@ async function main() {
   const category4 = await prisma.category.create({
     data: { category: 'User4' },
   })
-  console.log('✅ Создано 4 категории\n')
+  const category5 = await prisma.category.create({
+    data: { category: 'User5' },
+  })
+  console.log('✅ Создано 5 категорий\n')
 
   // Создаем пользователей
   console.log('👥 Создание пользователей...')
@@ -57,7 +60,7 @@ async function main() {
   const user5 = await prisma.user.create({
     data: {
       name: 'Мария Смирнова',
-      userTypeId: category3.id, // User3 - контролёр
+      userTypeId: category5.id, // User5 - просмотр списка «едет»
     },
   })
   console.log('✅ Создано 5 пользователей\n')
