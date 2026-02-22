@@ -108,7 +108,7 @@ export async function POST(request: NextRequest) {
     }
 
     const body = await request.json()
-    const { number, name, trans, srokDost, datObr, timObr, datRazm, timRazm, telephon, status } = body
+    const { number, name, trans, mestoR, srokDost, datObr, timObr, datRazm, timRazm, telephon, status, prim } = body
 
     // Валидация обязательных полей
     if (!number || !name || !trans) {
@@ -129,6 +129,7 @@ export async function POST(request: NextRequest) {
         number: parseInt(number),
         name: name.trim(),
         trans: trans.trim(),
+        mestoR: (mestoR && mestoR.trim()) || 'Рампа2',
         srokDost: srokDost ? new Date(srokDost) : null,
         datObr: currentDate,
         timObr: currentTime,
@@ -136,6 +137,7 @@ export async function POST(request: NextRequest) {
         timRazm: timRazm || null,
         telephon: telephon || null,
         status: status || ' ',
+        prim: prim != null && prim !== '' ? prim.trim() : null,
       },
     })
 

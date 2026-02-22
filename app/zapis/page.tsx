@@ -10,6 +10,7 @@ interface Zapis {
   number: number
   name: string
   trans: string
+  mestoR: string
   srokDost: string | null
   datObr: string | null
   timObr: string | null
@@ -17,6 +18,7 @@ interface Zapis {
   timRazm: string | null
   telephon: string | null
   status: string | null
+  prim: string | null
 }
 
 interface User {
@@ -36,10 +38,21 @@ export default function ZapisPage() {
   const [showEditModal, setShowEditModal] = useState(false)
   const [editingRecord, setEditingRecord] = useState<Zapis | null>(null)
   const [formData, setFormData] = useState<Partial<Zapis>>({})
+  const [mestoROptions, setMestoROptions] = useState<string[]>([])
 
   useEffect(() => {
     checkSession()
     fetchZapis()
+  }, [])
+
+  useEffect(() => {
+    fetch('/api/view-db/table?tableName=razgruzka&dbType=production&page=1&pageSize=500')
+      .then((r) => r.ok ? r.json() : { data: [] })
+      .then((d) => {
+        const values = (d.data || []).map((row: { mestoR?: string }) => row.mestoR).filter(Boolean)
+        setMestoROptions([...new Set(values)])
+      })
+      .catch(() => setMestoROptions([]))
   }, [])
 
   const checkSession = async () => {
@@ -186,9 +199,11 @@ export default function ZapisPage() {
       number: zapis.length > 0 ? Math.max(...zapis.map(z => z.number)) + 1 : 1,
       name: '',
       trans: '',
+      mestoR: 'Рампа2',
       datObr: now.toISOString().slice(0, 10), // Текущая дата
       timObr: now.toLocaleTimeString('ru-RU', { hour: '2-digit', minute: '2-digit' }), // Текущее время
       status: ' ',
+      prim: null,
     })
     setShowCreateModal(true)
   }
@@ -323,11 +338,13 @@ export default function ZapisPage() {
                 <th style={{ padding: '0.75rem', textAlign: 'left', borderBottom: '2px solid #e0e0e0', fontWeight: '600', fontSize: '0.875rem' }}>№</th>
                 <th style={{ padding: '0.75rem', textAlign: 'left', borderBottom: '2px solid #e0e0e0', fontWeight: '600', fontSize: '0.875rem' }}>Номер авто</th>
                 <th style={{ padding: '0.75rem', textAlign: 'left', borderBottom: '2px solid #e0e0e0', fontWeight: '600', fontSize: '0.875rem' }}>Транспорт</th>
+                <th style={{ padding: '0.75rem', textAlign: 'left', borderBottom: '2px solid #e0e0e0', fontWeight: '600', fontSize: '0.875rem' }}>Место разгрузки</th>
                 <th style={{ padding: '0.75rem', textAlign: 'left', borderBottom: '2px solid #e0e0e0', fontWeight: '600', fontSize: '0.875rem' }}>Срок доставки</th>
                 <th style={{ padding: '0.75rem', textAlign: 'left', borderBottom: '2px solid #e0e0e0', fontWeight: '600', fontSize: '0.875rem' }}>Дата обращения</th>
                 <th style={{ padding: '0.75rem', textAlign: 'left', borderBottom: '2px solid #e0e0e0', fontWeight: '600', fontSize: '0.875rem' }}>Время обращения</th>
                 <th style={{ padding: '0.75rem', textAlign: 'left', borderBottom: '2px solid #e0e0e0', fontWeight: '600', fontSize: '0.875rem' }}>Телефон</th>
                 <th style={{ padding: '0.75rem', textAlign: 'left', borderBottom: '2px solid #e0e0e0', fontWeight: '600', fontSize: '0.875rem' }}>Статус</th>
+                <th style={{ padding: '0.75rem', textAlign: 'left', borderBottom: '2px solid #e0e0e0', fontWeight: '600', fontSize: '0.875rem' }}>Примечание</th>
                 {canEdit && (
                   <th style={{ padding: '0.75rem', textAlign: 'center', borderBottom: '2px solid #e0e0e0', fontWeight: '600', fontSize: '0.875rem' }}>Действия</th>
                 )}
@@ -336,7 +353,7 @@ export default function ZapisPage() {
             <tbody>
               {zapis.length === 0 ? (
                 <tr>
-                  <td colSpan={canEdit ? 9 : 8} style={{ padding: '2rem', textAlign: 'center', color: '#666' }}>
+                  <td colSpan={canEdit ? 11 : 10} style={{ padding: '2rem', textAlign: 'center', color: '#666' }}>
                     Нет данных
                   </td>
                 </tr>
@@ -352,6 +369,7 @@ export default function ZapisPage() {
                     <td style={{ padding: '0.75rem', fontSize: '0.875rem' }}>{item.number}</td>
                     <td style={{ padding: '0.75rem', fontSize: '0.875rem', fontWeight: '600' }}>{item.name}</td>
                     <td style={{ padding: '0.75rem', fontSize: '0.875rem' }}>{item.trans}</td>
+                    <td style={{ padding: '0.75rem', fontSize: '0.875rem' }}>{item.mestoR ?? '—'}</td>
                     <td style={{ padding: '0.75rem', fontSize: '0.875rem' }}>
                       {item.srokDost ? new Date(item.srokDost).toLocaleDateString('ru-RU') : '—'}
                     </td>
@@ -361,6 +379,7 @@ export default function ZapisPage() {
                     <td style={{ padding: '0.75rem', fontSize: '0.875rem' }}>{item.timObr || '—'}</td>
                     <td style={{ padding: '0.75rem', fontSize: '0.875rem' }}>{item.telephon || '—'}</td>
                     <td style={{ padding: '0.75rem', fontSize: '0.875rem' }}>{item.status || '—'}</td>
+                    <td style={{ padding: '0.75rem', fontSize: '0.875rem', maxWidth: '200px', overflow: 'hidden', textOverflow: 'ellipsis' }} title={item.prim ?? ''}>{item.prim || '—'}</td>
                     {canEdit && (
                       <td style={{ padding: '0.75rem', textAlign: 'center' }}>
                         <button
@@ -397,6 +416,7 @@ export default function ZapisPage() {
             onSave={handleCreate}
             formData={formData}
             setFormData={setFormData}
+            mestoROptions={mestoROptions}
           />
         )}
 
@@ -412,6 +432,7 @@ export default function ZapisPage() {
             onSave={handleUpdate}
             formData={formData}
             setFormData={setFormData}
+            mestoROptions={mestoROptions}
           />
         )}
       </div>
@@ -426,12 +447,14 @@ function ZapisModal({
   onSave,
   formData,
   setFormData,
+  mestoROptions = [],
 }: {
   title: string
   onClose: () => void
   onSave: () => void
   formData: Partial<Zapis>
   setFormData: (data: Partial<Zapis>) => void
+  mestoROptions?: string[]
 }) {
   return (
     <div
@@ -509,6 +532,23 @@ function ZapisModal({
 
           <div>
             <label style={{ display: 'block', marginBottom: '0.5rem', fontWeight: '600', fontSize: '0.875rem', color: '#555' }}>
+              Место разгрузки
+            </label>
+            <select
+              value={formData.mestoR ?? 'Рампа2'}
+              onChange={(e) => setFormData({ ...formData, mestoR: e.target.value })}
+              style={{ width: '100%', padding: '0.5rem', border: '1px solid #e0e0e0', borderRadius: '6px', fontSize: '0.875rem' }}
+            >
+              {mestoROptions.length ? mestoROptions.map((opt) => (
+                <option key={opt} value={opt}>{opt}</option>
+              )) : (
+                <option value="Рампа2">Рампа2</option>
+              )}
+            </select>
+          </div>
+
+          <div>
+            <label style={{ display: 'block', marginBottom: '0.5rem', fontWeight: '600', fontSize: '0.875rem', color: '#555' }}>
               Срок доставки
             </label>
             <input
@@ -580,6 +620,19 @@ function ZapisModal({
               <option value="ремонт">ремонт</option>
               <option value="заехал">заехал</option>
             </select>
+          </div>
+
+          <div>
+            <label style={{ display: 'block', marginBottom: '0.5rem', fontWeight: '600', fontSize: '0.875rem', color: '#555' }}>
+              Примечание
+            </label>
+            <input
+              type="text"
+              value={formData.prim ?? ''}
+              onChange={(e) => setFormData({ ...formData, prim: e.target.value || null })}
+              placeholder="Произвольный текст"
+              style={{ width: '100%', padding: '0.5rem', border: '1px solid #e0e0e0', borderRadius: '6px', fontSize: '0.875rem' }}
+            />
           </div>
         </div>
 

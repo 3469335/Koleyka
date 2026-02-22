@@ -29,7 +29,7 @@ export async function PUT(
     }
 
     const body = await request.json()
-    const { number, name, trans, srokDost, datObr, timObr, datRazm, timRazm, telephon, status } = body
+    const { number, name, trans, mestoR, srokDost, datObr, timObr, datRazm, timRazm, telephon, status, prim } = body
 
     const zapis = await prisma.zapis.update({
       where: { id: params.id },
@@ -37,6 +37,7 @@ export async function PUT(
         number: number ? parseInt(number) : undefined,
         name: name ? name.trim() : undefined,
         trans: trans ? trans.trim() : undefined,
+        mestoR: mestoR !== undefined ? (mestoR && mestoR.trim() ? mestoR.trim() : 'Рампа2') : undefined,
         srokDost: srokDost ? new Date(srokDost) : srokDost === null ? null : undefined,
         datObr: datObr ? new Date(datObr) : datObr === null ? null : undefined,
         timObr: timObr !== undefined ? timObr : undefined,
@@ -44,6 +45,7 @@ export async function PUT(
         timRazm: timRazm !== undefined ? timRazm : undefined,
         telephon: telephon !== undefined ? telephon : undefined,
         status: status !== undefined ? status : undefined,
+        prim: prim !== undefined ? (prim !== null && prim !== '' ? prim.trim() : null) : undefined,
       },
     })
 

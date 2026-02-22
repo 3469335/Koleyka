@@ -37,10 +37,23 @@ export default function TableViewPage({ params }: { params: { tableName: string 
   const [editingRecord, setEditingRecord] = useState<any>(null)
   const [formData, setFormData] = useState<any>({})
   const [categories, setCategories] = useState<Array<{ id: string; category: string }>>([])
+  const [mestoROptions, setMestoROptions] = useState<string[]>([])
 
   useEffect(() => {
     fetchTableData()
   }, [params.tableName, page, dbType])
+
+  useEffect(() => {
+    if (params.tableName === 'zapis') {
+      fetch('/api/view-db/table?tableName=razgruzka&dbType=production&page=1&pageSize=500')
+        .then((r) => r.ok ? r.json() : { data: [] })
+        .then((d) => {
+          const values = (d.data || []).map((row: { mestoR?: string }) => row.mestoR).filter(Boolean)
+          setMestoROptions([...new Set(values)])
+        })
+        .catch(() => setMestoROptions([]))
+    }
+  }, [params.tableName])
 
   const fetchTableData = async () => {
     setLoading(true)
@@ -167,10 +180,13 @@ export default function TableViewPage({ params }: { params: { tableName: string 
         initialData[field.name] = ''
       }
     })
-    setFormData(initialData)
+    if (params.tableName === 'zapis') {
+      initialData.mestoR = 'Рампа2'
+    }
     if (params.tableName === 'users') {
       await fetchCategories()
     }
+    setFormData(initialData)
     setShowCreateModal(true)
   }
 
@@ -251,7 +267,7 @@ export default function TableViewPage({ params }: { params: { tableName: string 
                       color: '#555',
                     }}
                   >
-                    {field.name}
+                    {params.tableName === 'zapis' && ZAPIS_FIELD_LABELS[field.name] ? ZAPIS_FIELD_LABELS[field.name] : field.name}
                     {field.isId && ' (ID)'}
                     {field.isRequired && ' *'}
                   </th>
@@ -402,6 +418,7 @@ export default function TableViewPage({ params }: { params: { tableName: string 
             setFormData={setFormData}
             tableName={params.tableName}
             categories={categories}
+            mestoROptions={mestoROptions}
           />
         )}
 
@@ -420,11 +437,17 @@ export default function TableViewPage({ params }: { params: { tableName: string 
             setFormData={setFormData}
             tableName={params.tableName}
             categories={categories}
+            mestoROptions={mestoROptions}
           />
         )}
       </div>
     </div>
   )
+}
+
+const ZAPIS_FIELD_LABELS: Record<string, string> = {
+  mestoR: 'Место разгрузки',
+  prim: 'Примечание',
 }
 
 // Компонент модального окна
@@ -437,6 +460,7 @@ function Modal({
   setFormData,
   tableName,
   categories,
+  mestoROptions = [],
 }: {
   title: string
   onClose: () => void
@@ -446,6 +470,7 @@ function Modal({
   setFormData: (data: any) => void
   tableName?: string
   categories?: Array<{ id: string; category: string }>
+  mestoROptions?: string[]
 }) {
   return (
     <div
@@ -491,7 +516,7 @@ function Modal({
                     color: '#555',
                   }}
                 >
-                  {field.name}
+                  {tableName === 'zapis' && ZAPIS_FIELD_LABELS[field.name] ? ZAPIS_FIELD_LABELS[field.name] : field.name}
                   {field.isRequired && <span style={{ color: 'red' }}> *</span>}
                 </label>
                 {tableName === 'users' && field.name === 'category' ? (
@@ -535,6 +560,27 @@ function Modal({
                     {TRANSPORT_TYPES.map((t) => (
                       <option key={t} value={t}>{t}</option>
                     ))}
+                  </select>
+                ) : tableName === 'zapis' && field.name === 'mestoR' ? (
+                  <select
+                    value={formData[field.name] ?? 'Рампа2'}
+                    onChange={(e) =>
+                      setFormData({ ...formData, [field.name]: e.target.value })
+                    }
+                    required={field.isRequired}
+                    style={{
+                      width: '100%',
+                      padding: '0.5rem',
+                      border: '1px solid #e0e0e0',
+                      borderRadius: '6px',
+                      fontSize: '0.875rem',
+                    }}
+                  >
+                    {mestoROptions.length ? mestoROptions.map((opt) => (
+                      <option key={opt} value={opt}>{opt}</option>
+                    )) : (
+                      <option value="Рампа2">Рампа2</option>
+                    )}
                   </select>
                 ) : tableName === 'zapis' && field.name === 'status' ? (
                   <select
