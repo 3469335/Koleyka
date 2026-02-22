@@ -3,6 +3,7 @@
 import { useEffect, useState } from 'react'
 import { useRouter } from 'next/navigation'
 import { getRowStyle } from '@/lib/row-styles'
+import { TRANSPORT_TYPES } from '@/lib/transport-types'
 
 interface Zapis {
   id: string
@@ -493,13 +494,17 @@ function ZapisModal({
             <label style={{ display: 'block', marginBottom: '0.5rem', fontWeight: '600', fontSize: '0.875rem', color: '#555' }}>
               Транспорт <span style={{ color: 'red' }}>*</span>
             </label>
-            <input
-              type="text"
+            <select
               value={formData.trans || ''}
               onChange={(e) => setFormData({ ...formData, trans: e.target.value })}
               required
               style={{ width: '100%', padding: '0.5rem', border: '1px solid #e0e0e0', borderRadius: '6px', fontSize: '0.875rem' }}
-            />
+            >
+              <option value="">Выберите тип транспорта</option>
+              {TRANSPORT_TYPES.map((t) => (
+                <option key={t} value={t}>{t}</option>
+              ))}
+            </select>
           </div>
 
           <div>

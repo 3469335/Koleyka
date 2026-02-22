@@ -3,6 +3,7 @@
 import { useEffect, useState } from 'react'
 import { useRouter, useSearchParams } from 'next/navigation'
 import Link from 'next/link'
+import { TRANSPORT_TYPES } from '@/lib/transport-types'
 
 interface Field {
   name: string
@@ -513,6 +514,26 @@ function Modal({
                       <option key={cat.id} value={cat.category}>
                         {cat.category}
                       </option>
+                    ))}
+                  </select>
+                ) : tableName === 'zapis' && field.name === 'trans' ? (
+                  <select
+                    value={formData[field.name] || ''}
+                    onChange={(e) =>
+                      setFormData({ ...formData, [field.name]: e.target.value })
+                    }
+                    required={field.isRequired}
+                    style={{
+                      width: '100%',
+                      padding: '0.5rem',
+                      border: '1px solid #e0e0e0',
+                      borderRadius: '6px',
+                      fontSize: '0.875rem',
+                    }}
+                  >
+                    <option value="">Выберите тип транспорта</option>
+                    {TRANSPORT_TYPES.map((t) => (
+                      <option key={t} value={t}>{t}</option>
                     ))}
                   </select>
                 ) : tableName === 'zapis' && field.name === 'status' ? (
