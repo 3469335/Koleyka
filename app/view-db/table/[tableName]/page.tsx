@@ -47,8 +47,9 @@ export default function TableViewPage({ params }: { params: { tableName: string 
     if (params.tableName === 'zapis') {
       fetch('/api/view-db/table?tableName=razgruzka&dbType=production&page=1&pageSize=500')
         .then((r) => r.ok ? r.json() : { data: [] })
-        .then((d) => {
-          const values = (d.data || []).map((row: { mestoR?: string }) => row.mestoR).filter((v: string | undefined): v is string => Boolean(v))
+        .then((d: { data?: Array<{ mestoR?: string }> }) => {
+          const rows = d.data ?? []
+          const values = rows.map((row) => row.mestoR).filter((v: string | undefined): v is string => Boolean(v))
           setMestoROptions([...new Set(values)])
         })
         .catch(() => setMestoROptions([]))
