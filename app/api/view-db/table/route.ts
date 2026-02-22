@@ -32,10 +32,20 @@ export async function GET(request: NextRequest) {
       }, { status: 500 })
     }
 
-    // Находим модель по имени таблицы
-    const model = Prisma.dmmf.datamodel.models.find(
-      (m) => m.dbName === tableName || m.name.toLowerCase() === tableName.toLowerCase()
-    )
+    // Находим модель по имени таблицы (dbName, model name или camelCase для Prisma Client)
+    const tableNameLower = tableName.toLowerCase()
+    const model = Prisma.dmmf.datamodel.models.find((m) => {
+      const dbName = (m as { dbName?: string }).dbName
+      const clientKey = m.name.charAt(0).toLowerCase() + m.name.slice(1)
+      return (
+        dbName === tableName ||
+        dbName === tableNameLower ||
+        m.name === tableName ||
+        m.name.toLowerCase() === tableNameLower ||
+        clientKey === tableName ||
+        clientKey === tableNameLower
+      )
+    })
 
     if (!model) {
       console.error(`Модель не найдена для таблицы: ${tableName}`)

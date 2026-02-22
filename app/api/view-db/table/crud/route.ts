@@ -4,6 +4,22 @@ import { Prisma } from '@prisma/client'
 
 export const dynamic = 'force-dynamic'
 
+function findModelByTableName(tableName: string) {
+  const tableNameLower = tableName.toLowerCase()
+  return Prisma.dmmf.datamodel.models.find((m) => {
+    const dbName = (m as { dbName?: string }).dbName
+    const clientKey = m.name.charAt(0).toLowerCase() + m.name.slice(1)
+    return (
+      dbName === tableName ||
+      dbName === tableNameLower ||
+      m.name === tableName ||
+      m.name.toLowerCase() === tableNameLower ||
+      clientKey === tableName ||
+      clientKey === tableNameLower
+    )
+  })
+}
+
 export async function POST(request: NextRequest) {
   try {
     const body = await request.json()
@@ -15,10 +31,7 @@ export async function POST(request: NextRequest) {
 
     const prisma = getPrismaClient(dbType as 'local' | 'production')
 
-    // Находим модель
-    const model = Prisma.dmmf.datamodel.models.find(
-      (m) => m.dbName === tableName || m.name.toLowerCase() === tableName.toLowerCase()
-    )
+    const model = findModelByTableName(tableName)
 
     if (!model) {
       return NextResponse.json({ error: 'Таблица не найдена' }, { status: 404 })
@@ -66,11 +79,7 @@ export async function PUT(request: NextRequest) {
 
     const prisma = getPrismaClient(dbType as 'local' | 'production')
 
-    // Находим модель
-    const model = Prisma.dmmf.datamodel.models.find(
-      (m) => m.dbName === tableName || m.name.toLowerCase() === tableName.toLowerCase()
-    )
-
+    const model = findModelByTableName(tableName)
     if (!model) {
       return NextResponse.json({ error: 'Таблица не найдена' }, { status: 404 })
     }
@@ -78,10 +87,8 @@ export async function PUT(request: NextRequest) {
     const modelName = model.name
     const modelInstance = (prisma as any)[modelName.charAt(0).toLowerCase() + modelName.slice(1)]
 
-    // Находим поле ID
     const idField = model.fields.find((f) => f.isId)?.name || 'id'
 
-    // Для таблицы users преобразуем category в userTypeId
     let preparedData = prepareData(data, model, tableName)
     if (tableName === 'users' && data.category) {
       // Находим категорию по названию
@@ -123,11 +130,7 @@ export async function DELETE(request: NextRequest) {
 
     const prisma = getPrismaClient(dbType as 'local' | 'production')
 
-    // Находим модель
-    const model = Prisma.dmmf.datamodel.models.find(
-      (m) => m.dbName === tableName || m.name.toLowerCase() === tableName.toLowerCase()
-    )
-
+    const model = findModelByTableName(tableName)
     if (!model) {
       return NextResponse.json({ error: 'Таблица не найдена' }, { status: 404 })
     }
@@ -135,7 +138,6 @@ export async function DELETE(request: NextRequest) {
     const modelName = model.name
     const modelInstance = (prisma as any)[modelName.charAt(0).toLowerCase() + modelName.slice(1)]
 
-    // Находим поле ID
     const idField = model.fields.find((f) => f.isId)?.name || 'id'
 
     // Удаляем запись
@@ -195,6 +197,8 @@ function prepareData(data: any, model: any, tableName?: string) {
       } else {
         prepared[field.name] = new Date(data[field.name])
       }
+    } else if (field.type === 'Int' && data[field.name] !== undefined && data[field.name] !== null && data[field.name] !== '') {
+      prepared[field.name] = typeof data[field.name] === 'string' ? parseInt(data[field.name], 10) : Number(data[field.name])
     } else if (data[field.name] !== undefined && data[field.name] !== null && data[field.name] !== '') {
       prepared[field.name] = data[field.name]
     }

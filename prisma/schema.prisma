@@ -43,3 +43,11 @@ model Zapis {
   @@index([name])
   @@map("zapis")
 }
+
+model Razgruzka {
+  id     String @id @default(cuid())
+  mestoR String @map("mesto_r")
+  potok  Int    @map("potok")
+
+  @@map("razgruzka")
+}

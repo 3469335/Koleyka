@@ -20,15 +20,15 @@ export async function GET(request: NextRequest) {
         // Prisma использует camelCase с первой строчной буквой
         const modelName = model.name.charAt(0).toLowerCase() + model.name.slice(1)
         const count = await (prisma as any)[modelName].count()
+        // Используем camelCase как имя таблицы для единообразия с маршрутом
         tables.push({
-          name: model.dbName || model.name,
+          name: modelName,
           count,
         })
       } catch (error) {
-        // Если таблица не существует или ошибка, пропускаем
         console.error(`Ошибка при получении данных для ${model.name}:`, error)
         tables.push({
-          name: model.dbName || model.name,
+          name: model.name.charAt(0).toLowerCase() + model.name.slice(1),
           count: 0,
         })
       }
