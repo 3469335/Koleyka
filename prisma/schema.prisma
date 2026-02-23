@@ -32,7 +32,7 @@ model Zapis {
   number    Int
   name      String
   trans     String
-  mestoR    String    @default("Рампа2") @map("mesto_r")
+  mestoR    String    @default("Склад") @map("mesto_r")
   srokDost  DateTime? @map("srok_dost")
   datObr    DateTime? @map("dat_obr")
   timObr    String?   @map("tim_obr")

@@ -4,6 +4,7 @@ import { useEffect, useState } from 'react'
 import { useRouter } from 'next/navigation'
 import { getRowStyle } from '@/lib/row-styles'
 import { TRANSPORT_TYPES } from '@/lib/transport-types'
+import { formatMestoR } from '@/lib/mesto-r-labels'
 
 interface Zapis {
   id: string
@@ -200,7 +201,7 @@ export default function ZapisPage() {
       number: zapis.length > 0 ? Math.max(...zapis.map(z => z.number)) + 1 : 1,
       name: '',
       trans: '',
-      mestoR: 'Рампа2',
+      mestoR: 'Склад',
       datObr: now.toISOString().slice(0, 10), // Текущая дата
       timObr: now.toLocaleTimeString('ru-RU', { hour: '2-digit', minute: '2-digit' }), // Текущее время
       status: ' ',
@@ -370,7 +371,7 @@ export default function ZapisPage() {
                     <td style={{ padding: '0.75rem', fontSize: '0.875rem' }}>{item.number}</td>
                     <td style={{ padding: '0.75rem', fontSize: '0.875rem', fontWeight: '600' }}>{item.name}</td>
                     <td style={{ padding: '0.75rem', fontSize: '0.875rem' }}>{item.trans}</td>
-                    <td style={{ padding: '0.75rem', fontSize: '0.875rem' }}>{item.mestoR ?? '—'}</td>
+                    <td style={{ padding: '0.75rem', fontSize: '0.875rem' }}>{formatMestoR(item.mestoR)}</td>
                     <td style={{ padding: '0.75rem', fontSize: '0.875rem' }}>
                       {item.srokDost ? new Date(item.srokDost).toLocaleDateString('ru-RU') : '—'}
                     </td>
@@ -536,14 +537,14 @@ function ZapisModal({
               Место разгрузки
             </label>
             <select
-              value={formData.mestoR ?? 'Рампа2'}
+              value={formData.mestoR ?? 'Склад'}
               onChange={(e) => setFormData({ ...formData, mestoR: e.target.value })}
               style={{ width: '100%', padding: '0.5rem', border: '1px solid #e0e0e0', borderRadius: '6px', fontSize: '0.875rem' }}
             >
               {mestoROptions.length ? mestoROptions.map((opt) => (
-                <option key={opt} value={opt}>{opt}</option>
+                <option key={opt} value={opt}>{formatMestoR(opt)}</option>
               )) : (
-                <option value="Рампа2">Рампа2</option>
+                <option value="Склад">Склад</option>
               )}
             </select>
           </div>

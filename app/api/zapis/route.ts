@@ -129,7 +129,7 @@ export async function POST(request: NextRequest) {
         number: parseInt(number),
         name: name.trim(),
         trans: trans.trim(),
-        mestoR: (mestoR && mestoR.trim()) || 'Рампа2',
+        mestoR: (mestoR && mestoR.trim()) || 'Склад',
         srokDost: srokDost ? new Date(srokDost) : null,
         datObr: currentDate,
         timObr: currentTime,

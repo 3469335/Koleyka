@@ -37,7 +37,7 @@ export async function PUT(
         number: number ? parseInt(number) : undefined,
         name: name ? name.trim() : undefined,
         trans: trans ? trans.trim() : undefined,
-        mestoR: mestoR !== undefined ? (mestoR && mestoR.trim() ? mestoR.trim() : 'Рампа2') : undefined,
+        mestoR: mestoR !== undefined ? (mestoR && mestoR.trim() ? mestoR.trim() : 'Склад') : undefined,
         srokDost: srokDost ? new Date(srokDost) : srokDost === null ? null : undefined,
         datObr: datObr ? new Date(datObr) : datObr === null ? null : undefined,
         timObr: timObr !== undefined ? timObr : undefined,

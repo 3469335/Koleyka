@@ -4,6 +4,7 @@ import { useEffect, useState } from 'react'
 import { useRouter, useSearchParams } from 'next/navigation'
 import Link from 'next/link'
 import { TRANSPORT_TYPES } from '@/lib/transport-types'
+import { formatMestoR } from '@/lib/mesto-r-labels'
 
 interface Field {
   name: string
@@ -182,7 +183,7 @@ export default function TableViewPage({ params }: { params: { tableName: string 
       }
     })
     if (params.tableName === 'zapis') {
-      initialData.mestoR = 'Рампа2'
+      initialData.mestoR = 'Склад'
     }
     if (params.tableName === 'users') {
       await fetchCategories()
@@ -564,7 +565,7 @@ function Modal({
                   </select>
                 ) : tableName === 'zapis' && field.name === 'mestoR' ? (
                   <select
-                    value={formData[field.name] ?? 'Рампа2'}
+                    value={formData[field.name] ?? 'Склад'}
                     onChange={(e) =>
                       setFormData({ ...formData, [field.name]: e.target.value })
                     }
@@ -578,9 +579,9 @@ function Modal({
                     }}
                   >
                     {mestoROptions.length ? mestoROptions.map((opt) => (
-                      <option key={opt} value={opt}>{opt}</option>
+                      <option key={opt} value={opt}>{formatMestoR(opt)}</option>
                     )) : (
-                      <option value="Рампа2">Рампа2</option>
+                      <option value="Склад">Склад</option>
                     )}
                   </select>
                 ) : tableName === 'zapis' && field.name === 'status' ? (
@@ -726,6 +727,9 @@ function Modal({
 // Форматирование значения для отображения
 function formatValue(value: any, type: string, fieldName?: string, tableName?: string): string {
   if (value === null || value === undefined) return '—'
+  if ((tableName === 'zapis' || tableName === 'razgruzka') && fieldName === 'mestoR') {
+    return formatMestoR(value)
+  }
   if (type === 'DateTime' && value) {
     // Для полей srokDost и datObr в таблице zapis показываем только дату
     if (tableName === 'zapis' && (fieldName === 'srokDost' || fieldName === 'datObr')) {
